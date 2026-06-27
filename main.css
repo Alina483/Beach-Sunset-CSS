@@ -1,0 +1,501 @@
+:root {
+	--sun-size: clamp(7rem, 18vw, 13rem);
+	--silhouette: hsl(258 48% 8%);
+	--candy-peach: hsl(22 100% 76%);
+	--candy-coral: hsl(347 92% 69%);
+	--candy-pink: hsl(322 78% 59%);
+	--candy-purple: hsl(282 58% 31%);
+	--sunset-duration: 14s;
+	--night-fade-duration: 4s;
+	--night-start-delay: 6s;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+}
+
+body {
+	display: grid;
+	min-height: 100vh;
+	overflow: hidden;
+	background: hsl(258 54% 11%);
+	font-family: system-ui, sans-serif;
+}
+
+.sunset {
+	position: relative;
+	isolation: isolate;
+	min-height: 100vh;
+	overflow: hidden;
+	background: hsl(258 54% 11%);
+}
+
+.sunset::after {
+	content: "";
+	position: absolute;
+	z-index: 20;
+	inset: 0;
+	pointer-events: none;
+	background: hsl(225 75% 10% / 0.68);
+	opacity: 0;
+	animation: night-fall var(--night-fade-duration) ease-in-out
+		var(--night-start-delay) forwards;
+}
+
+/* --------------------------------
+   SKY
+-------------------------------- */
+
+.sky {
+	position: absolute;
+	inset: 0 0 42%;
+	overflow: hidden;
+	background: radial-gradient(
+			ellipse at 50% 100%,
+			hsl(38 100% 75% / 0.9) 0%,
+			hsl(18 100% 68% / 0.45) 28%,
+			transparent 62%
+		),
+		linear-gradient(
+			to bottom,
+			hsl(253 58% 18%) 0%,
+			hsl(272 56% 29%) 26%,
+			hsl(316 68% 45%) 56%,
+			hsl(348 87% 59%) 76%,
+			hsl(31 100% 70%) 100%
+		);
+}
+
+.sky::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+
+	background: radial-gradient(
+		ellipse at 50% 105%,
+		hsl(42 100% 84% / 0.32) 0%,
+		hsl(348 100% 72% / 0.12) 38%,
+		transparent 70%
+	);
+
+	opacity: 0.7;
+	animation: sky-glow 8s ease-in-out infinite alternate;
+}
+
+/* --------------------------------
+   SUN
+-------------------------------- */
+
+.sun {
+	position: absolute;
+	z-index: 1;
+	left: 50%;
+	bottom: calc(var(--sun-size) * -0.1);
+
+	width: var(--sun-size);
+	aspect-ratio: 1;
+	border-radius: 50%;
+
+	transform: translateX(-50%);
+
+	background: linear-gradient(
+		to bottom,
+		hsl(49 100% 91%) 0%,
+		hsl(41 100% 72%) 43%,
+		hsl(27 100% 62%) 75%,
+		hsl(17 100% 59%) 100%
+	);
+
+	box-shadow: 0 0 2rem hsl(42 100% 76% / 0.75), 0 0 6rem hsl(22 100% 64% / 0.48),
+		0 0 10rem hsl(330 100% 65% / 0.25);
+
+	animation: set-sun var(--sunset-duration) ease-in-out forwards;
+}
+
+/* --------------------------------
+   CLOUDS
+-------------------------------- */
+
+.cloud {
+	position: absolute;
+	z-index: 2;
+
+	width: 12rem;
+	height: 1.8rem;
+	border-radius: 999px;
+
+	opacity: 0.2;
+	filter: blur(0.35rem);
+
+	background: currentColor;
+
+	box-shadow: 2.5rem -0.5rem 0 -0.15rem currentColor,
+		5rem 0.15rem 0 -0.2rem currentColor, 7.2rem -0.25rem 0 -0.3rem currentColor;
+}
+
+.cloud--one {
+	top: 25%;
+	left: -16rem;
+	color: hsl(276 43% 17%);
+	animation: cloud-drift 31s linear infinite;
+}
+
+.cloud--two {
+	top: 42%;
+	left: -20rem;
+	color: hsl(326 46% 29%);
+	transform: scale(0.7);
+	animation: cloud-drift 43s 5s linear infinite;
+}
+
+/* --------------------------------
+   OCEAN
+-------------------------------- */
+
+.ocean {
+	position: absolute;
+	z-index: 3;
+	inset: 58% 0 0;
+	overflow: hidden;
+	background: radial-gradient(
+			ellipse at 50% -25%,
+			hsl(22 100% 67% / 0.56) 0%,
+			hsl(315 68% 55% / 0.24) 30%,
+			transparent 62%
+		),
+		linear-gradient(
+			to bottom,
+			hsl(279 47% 34%) 0%,
+			hsl(265 48% 29%) 25%,
+			hsl(249 51% 23%) 58%,
+			hsl(230 57% 16%) 100%
+		);
+}
+
+.ocean::after {
+	content: "";
+	position: absolute;
+	z-index: 1;
+	inset: -20% -10%;
+	pointer-events: none;
+
+	background: radial-gradient(
+			ellipse at 50% 0%,
+			hsl(37 100% 77% / 0.2),
+			transparent 55%
+		),
+		radial-gradient(ellipse at 25% 70%, hsl(315 80% 66% / 0.08), transparent 45%);
+
+	filter: blur(2rem);
+	opacity: 0.8;
+	animation: water-glow 7s ease-in-out infinite alternate;
+}
+
+/* --------------------------------
+   SUN REFLECTION
+-------------------------------- */
+
+.reflection {
+	position: absolute;
+	z-index: 2;
+	top: -2%;
+	left: 50%;
+	width: min(31vw, 25rem);
+	height: 105%;
+	transform: translateX(-50%);
+	clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+	background: linear-gradient(
+		to bottom,
+		hsl(48 100% 88% / 0.62) 0%,
+		hsl(38 100% 76% / 0.42) 28%,
+		hsl(31 100% 68% / 0.18) 65%,
+		transparent 100%
+	);
+
+	filter: blur(1rem);
+	opacity: 0.7;
+	mix-blend-mode: screen;
+	animation: reflection-shimmer 3.5s ease-in-out infinite alternate;
+}
+
+.reflection span {
+	display: none;
+}
+
+/* --------------------------------
+   SAILBOAT
+-------------------------------- */
+
+.boat {
+	position: absolute;
+	z-index: 5;
+	top: 2%;
+	left: 69%;
+	width: 6rem;
+	height: 6rem;
+	color: var(--silhouette);
+	animation: sail 16s ease-in-out infinite alternate;
+}
+
+.mast {
+	position: absolute;
+	left: 50%;
+	bottom: 1.2rem;
+
+	width: 0.18rem;
+	height: 4.8rem;
+
+	background: currentColor;
+}
+
+.sail {
+	position: absolute;
+	bottom: 1.55rem;
+	background: currentColor;
+}
+
+.sail--left {
+	right: 51%;
+	width: 2.35rem;
+	height: 3.5rem;
+	clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.sail--right {
+	left: 54%;
+	width: 2rem;
+	height: 3rem;
+	clip-path: polygon(0 5%, 100% 100%, 0 100%);
+}
+
+.hull {
+	position: absolute;
+	bottom: 0.75rem;
+	left: 0.35rem;
+
+	width: 5.5rem;
+	height: 1rem;
+
+	border-radius: 0 0 70% 45%;
+	transform: skewX(-12deg);
+	background: currentColor;
+}
+
+/* --------------------------------
+   CANDY BEACH
+-------------------------------- */
+
+.beach {
+	position: absolute;
+	z-index: 8;
+	inset: 81% -5% -12%;
+
+	transform: rotate(-2deg);
+	border-radius: 50% 48% 0 0;
+
+	background: radial-gradient(
+		ellipse at 50% 0%,
+		var(--candy-peach) 0%,
+		var(--candy-coral) 27%,
+		var(--candy-pink) 57%,
+		var(--candy-purple) 100%
+	);
+
+	box-shadow: none;
+}
+
+.beach::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	pointer-events: none;
+
+	background: radial-gradient(
+		ellipse at 50% 8%,
+		hsl(43 100% 88% / 0.14),
+		transparent 48%
+	);
+}
+
+/* --------------------------------
+   PALM TREE
+-------------------------------- */
+
+.palm {
+	position: absolute;
+	z-index: 10;
+	left: 10%;
+	bottom: 10%;
+
+	width: 10rem;
+	height: 25rem;
+
+	transform: rotate(4deg);
+	transform-origin: bottom;
+
+	color: var(--silhouette);
+
+	filter: drop-shadow(0 0.2rem 0.2rem hsl(0 0% 0% / 0.3));
+
+	animation: palm-sway 5s ease-in-out infinite alternate;
+}
+
+.palm__trunk {
+	position: absolute;
+	bottom: 0;
+	left: 48%;
+
+	width: 1.6rem;
+	height: 19rem;
+
+	transform: skewX(-8deg);
+	border-radius: 70% 35% 15% 15%;
+
+	background: currentColor;
+}
+
+.palm__leaves {
+	position: absolute;
+	top: 4.5rem;
+	left: 60%;
+}
+
+.palm__leaves i {
+	position: absolute;
+
+	width: 8rem;
+	height: 2.5rem;
+
+	transform-origin: left center;
+	border-radius: 100% 0;
+
+	background: currentColor;
+}
+
+.palm__leaves i:nth-child(1) {
+	transform: rotate(-82deg);
+}
+
+.palm__leaves i:nth-child(2) {
+	transform: rotate(-42deg) scaleX(1.25);
+}
+
+.palm__leaves i:nth-child(3) {
+	transform: rotate(-8deg) scaleX(1.35);
+}
+
+.palm__leaves i:nth-child(4) {
+	transform: rotate(28deg) scaleX(1.2);
+}
+
+.palm__leaves i:nth-child(5) {
+	right: -140px;
+	top: 10px;
+	transform: rotate(188deg) scaleX(1.2);
+}
+
+.palm__leaves i:nth-child(6) {
+	right: -160px;
+	top: 13px;
+	transform: rotate(165deg) scaleX(1.15);
+}
+
+/* --------------------------------
+   ANIMATIONS
+-------------------------------- */
+
+@keyframes set-sun {
+	0% {
+		transform: translate(-50%, -9vh);
+		opacity: 1;
+	}
+
+	75% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: translate(-50%, calc(100% + 20vh));
+		opacity: 0;
+	}
+}
+
+@keyframes sky-glow {
+	from {
+		opacity: 0.52;
+		transform: translateY(0);
+	}
+
+	to {
+		opacity: 0.82;
+		transform: translateY(1.5%);
+	}
+}
+
+@keyframes cloud-drift {
+	to {
+		left: calc(100% + 14rem);
+	}
+}
+
+@keyframes water-glow {
+	from {
+		transform: translateX(-2%) scaleX(0.95);
+		opacity: 0.58;
+	}
+
+	to {
+		transform: translateX(2%) scaleX(1.06);
+		opacity: 0.85;
+	}
+}
+
+@keyframes reflection-shimmer {
+	from {
+		transform: translateX(-50%) scaleX(0.82);
+		opacity: 0.48;
+	}
+
+	to {
+		transform: translateX(-50%) scaleX(1.12);
+		opacity: 0.74;
+	}
+}
+
+@keyframes sail {
+	from {
+		transform: translate(-2rem, 0) rotate(-1deg);
+	}
+
+	to {
+		transform: translate(2rem, 0.65rem) rotate(1deg);
+	}
+}
+
+@keyframes palm-sway {
+	from {
+		transform: rotate(4deg);
+	}
+
+	to {
+		transform: rotate(6deg);
+	}
+}
+
+@keyframes night-fall {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
