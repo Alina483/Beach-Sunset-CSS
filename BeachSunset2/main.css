@@ -1,0 +1,686 @@
+:root {
+	--dark: hsl(282 72% 5%);
+	--purple: hsl(290 70% 23%);
+	--pink: hsl(327 100% 57%);
+	--coral: hsl(10 100% 65%);
+	--orange: hsl(30 100% 58%);
+	--gold: hsl(43 100% 72%);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+}
+
+body {
+	min-height: 100vh;
+	overflow: hidden;
+	background: var(--dark);
+	font-family: Arial, sans-serif;
+}
+
+.sunset-scene {
+	position: relative;
+	isolation: isolate;
+	width: 100%;
+	min-height: 100vh;
+	overflow: hidden;
+	background: var(--dark);
+}
+
+/* =========================
+   SKY
+========================= */
+
+.sky {
+	position: absolute;
+	inset: 0 0 41%;
+	overflow: hidden;
+	background: radial-gradient(
+			circle at 60% 78%,
+			hsl(43 100% 85% / 0.95) 0 4%,
+			hsl(24 100% 69% / 0.75) 12%,
+			transparent 34%
+		),
+		linear-gradient(
+			to bottom,
+			hsl(291 72% 20%) 0%,
+			hsl(314 92% 45%) 36%,
+			hsl(343 100% 62%) 60%,
+			hsl(17 100% 66%) 79%,
+			hsl(40 100% 76%) 100%
+		);
+}
+
+.sky::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	opacity: 0.75;
+	background: repeating-linear-gradient(
+		168deg,
+		transparent 0 8%,
+		hsl(315 100% 85% / 0.13) 8.5% 9.5%,
+		transparent 10% 17%
+	);
+	animation: skyPulse 7s ease-in-out infinite alternate;
+}
+
+.sky::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(
+		ellipse at 50% 100%,
+		hsl(26 100% 72% / 0.7),
+		transparent 55%
+	);
+}
+
+.sun {
+	position: absolute;
+	z-index: 1;
+	left: 59%;
+	bottom: -3rem;
+	width: clamp(9rem, 17vw, 15rem);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	transform: translateX(-50%);
+	background: radial-gradient(
+		circle at 48% 42%,
+		hsl(54 100% 96%),
+		hsl(43 100% 76%) 42%,
+		hsl(19 100% 60%) 78%
+	);
+	box-shadow: 0 0 2rem hsl(42 100% 77% / 0.9), 0 0 6rem hsl(23 100% 61% / 0.65),
+		0 0 12rem hsl(326 100% 64% / 0.5);
+	animation: sunGlow 5s ease-in-out infinite alternate;
+}
+
+/* =========================
+   CLOUDS
+========================= */
+
+.cloud {
+	position: absolute;
+	z-index: 2;
+	height: 1.2rem;
+	border-radius: 50%;
+	opacity: 0.35;
+	filter: blur(0.35rem);
+	background: hsl(286 66% 13%);
+	box-shadow: 3rem -0.8rem 0 -0.05rem currentColor,
+		6rem 0.1rem 0 -0.1rem currentColor, 9rem -0.4rem 0 -0.15rem currentColor,
+		12rem 0.2rem 0 -0.2rem currentColor;
+}
+
+.cloud-1 {
+	top: 16%;
+	left: -18rem;
+	width: 15rem;
+	color: hsl(287 66% 13%);
+	animation: cloudMove 35s linear infinite;
+}
+
+.cloud-2 {
+	top: 37%;
+	left: -22rem;
+	width: 19rem;
+	color: hsl(318 60% 25%);
+	transform: scale(0.75);
+	animation: cloudMove 48s 8s linear infinite;
+}
+
+.cloud-3 {
+	top: 58%;
+	left: -20rem;
+	width: 17rem;
+	color: hsl(334 55% 34%);
+	transform: scale(0.55);
+	animation: cloudMove 42s 16s linear infinite;
+}
+
+/* =========================
+   CITY
+========================= */
+
+.city {
+	position: absolute;
+	z-index: 4;
+	inset: 25% 0 41%;
+	overflow: hidden;
+}
+
+.city::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 1.25rem;
+	background: hsl(281 74% 5%);
+	box-shadow: 0 -0.25rem 1rem hsl(29 100% 60% / 0.55),
+		0 0 2rem hsl(329 100% 58% / 0.4);
+}
+
+.building {
+	position: absolute;
+	bottom: 0;
+	left: var(--x);
+	width: var(--w);
+	height: var(--h);
+	overflow: visible;
+	border-radius: 0.15rem 0.15rem 0 0;
+	background: repeating-linear-gradient(
+			to right,
+			transparent 0 14%,
+			hsl(42 100% 72% / 0.88) 15% 19%,
+			transparent 20% 34%
+		),
+		repeating-linear-gradient(
+			to bottom,
+			transparent 0 5%,
+			hsl(321 100% 61% / 0.5) 5.5% 7%,
+			transparent 7.5% 12%
+		),
+		linear-gradient(
+			to right,
+			hsl(276 72% 8%),
+			var(--building-color, hsl(290 58% 16%)),
+			hsl(275 74% 7%)
+		);
+	border-inline: 1px solid hsl(330 100% 68% / 0.22);
+	box-shadow: 0 0 1rem hsl(330 100% 55% / 0.2),
+		inset 0 0 1.5rem hsl(285 100% 5% / 0.55);
+}
+
+.building::before {
+	content: "";
+	position: absolute;
+	left: 14%;
+	right: 14%;
+	top: -0.5rem;
+	height: 0.5rem;
+	background: hsl(286 68% 7%);
+	border-top: 0.12rem solid var(--roof-light, hsl(40 100% 66%));
+	box-shadow: 0 0 0.55rem var(--roof-light, hsl(40 100% 66%)),
+		0 0 1.1rem var(--roof-light, hsl(40 100% 66%));
+}
+
+.building::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 100%;
+	width: 0.1rem;
+	height: var(--antenna, 0rem);
+	background: hsl(341 100% 76%);
+	box-shadow: 0 0 0.5rem hsl(341 100% 60%);
+}
+
+.b1 {
+	--x: -1%;
+	--w: 6%;
+	--h: 39%;
+	--building-color: hsl(275 49% 19%);
+}
+
+.b2 {
+	--x: 4%;
+	--w: 7%;
+	--h: 57%;
+	--roof-light: hsl(321 100% 61%);
+	--building-color: hsl(289 53% 18%);
+}
+
+.b3 {
+	--x: 10%;
+	--w: 8%;
+	--h: 31%;
+	--building-color: hsl(263 55% 17%);
+}
+
+.b4 {
+	--x: 17%;
+	--w: 6%;
+	--h: 47%;
+	--roof-light: hsl(164 100% 50%);
+	--building-color: hsl(283 55% 20%);
+}
+
+.b5 {
+	--x: 22%;
+	--w: 7%;
+	--h: 36%;
+	--building-color: hsl(292 59% 15%);
+}
+
+.b6 {
+	--x: 28%;
+	--w: 9%;
+	--h: 61%;
+	--roof-light: hsl(42 100% 65%);
+	--building-color: hsl(304 51% 18%);
+}
+
+.b7 {
+	--x: 36%;
+	--w: 8%;
+	--h: 52%;
+	--building-color: hsl(276 51% 17%);
+}
+
+.b8 {
+	--x: 43%;
+	--w: 10%;
+	--h: 69%;
+	--roof-light: hsl(21 100% 60%);
+	--building-color: hsl(297 54% 18%);
+}
+
+.b9 {
+	--x: 51%;
+	--w: 9%;
+	--h: 90%;
+	--antenna: 2.5rem;
+	--roof-light: hsl(327 100% 63%);
+	--building-color: hsl(270 55% 17%);
+}
+
+.b10 {
+	--x: 59%;
+	--w: 7%;
+	--h: 43%;
+	--building-color: hsl(286 53% 18%);
+}
+
+.b11 {
+	--x: 65%;
+	--w: 9%;
+	--h: 64%;
+	--antenna: 3.5rem;
+	--roof-light: hsl(40 100% 65%);
+	--building-color: hsl(299 55% 16%);
+}
+
+.b12 {
+	--x: 73%;
+	--w: 10%;
+	--h: 74%;
+	--roof-light: hsl(25 100% 60%);
+	--building-color: hsl(277 58% 17%);
+}
+
+.b13 {
+	--x: 82%;
+	--w: 8%;
+	--h: 48%;
+	--building-color: hsl(292 51% 18%);
+}
+
+.b14 {
+	--x: 89%;
+	--w: 12%;
+	--h: 59%;
+	--roof-light: hsl(329 100% 64%);
+	--building-color: hsl(273 58% 14%);
+}
+
+/* =========================
+   WATER
+========================= */
+
+.water {
+	position: absolute;
+	z-index: 3;
+	inset: 59% 0 0;
+	overflow: hidden;
+	background: linear-gradient(
+			to bottom,
+			hsl(333 90% 45% / 0.65),
+			transparent 17%
+		),
+		repeating-linear-gradient(
+			176deg,
+			hsl(296 59% 15%) 0 0.35rem,
+			hsl(329 70% 29%) 0.45rem 0.8rem,
+			hsl(282 66% 13%) 0.9rem 1.3rem
+		);
+}
+
+.water::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	opacity: 0.42;
+	background: repeating-linear-gradient(
+		92deg,
+		transparent 0 5rem,
+		hsl(21 100% 63% / 0.65) 5.3rem 5.8rem,
+		transparent 6.1rem 11rem
+	);
+	animation: waterMovement 8s linear infinite;
+}
+
+.water::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to bottom,
+		transparent 0 70%,
+		hsl(282 74% 5% / 0.8) 100%
+	);
+}
+
+.sun-reflection {
+	position: absolute;
+	z-index: 2;
+	top: -2%;
+	left: 59%;
+	width: min(32vw, 28rem);
+	height: 100%;
+	transform: translateX(-50%);
+	opacity: 0.85;
+	filter: blur(0.15rem);
+	clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+	background: repeating-linear-gradient(
+		to bottom,
+		hsl(48 100% 84% / 0.95) 0 0.2rem,
+		hsl(24 100% 60% / 0.45) 0.3rem 0.6rem,
+		transparent 0.7rem 1.4rem
+	);
+	animation: reflectionGlow 2.6s ease-in-out infinite alternate;
+}
+
+.city-reflection {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 38%;
+	opacity: 0.27;
+	filter: blur(0.18rem);
+	transform: scaleY(-1);
+	transform-origin: top;
+	background: repeating-linear-gradient(
+		90deg,
+		transparent 0 2%,
+		hsl(334 100% 66% / 0.8) 2.2% 2.5%,
+		transparent 2.7% 4%
+	);
+	-webkit-mask-image: linear-gradient(to bottom, black, transparent);
+	mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.ripple {
+	position: absolute;
+	z-index: 4;
+	left: -10%;
+	width: 120%;
+	height: 2rem;
+	border-top: 0.12rem solid hsl(29 100% 75% / 0.5);
+	border-radius: 50%;
+}
+
+.ripple-1 {
+	top: 20%;
+	animation: ripple 4s ease-in-out infinite alternate;
+}
+
+.ripple-2 {
+	top: 48%;
+	animation: ripple 5s 0.8s ease-in-out infinite alternate-reverse;
+}
+
+.ripple-3 {
+	top: 74%;
+	animation: ripple 3.5s 0.4s ease-in-out infinite alternate;
+}
+
+/* =========================
+   SHORE
+========================= */
+
+.shore {
+	position: absolute;
+	z-index: 8;
+	left: -5%;
+	right: -5%;
+	bottom: -8%;
+	height: 19%;
+	transform: rotate(1deg);
+	border-radius: 55% 45% 0 0;
+	background: radial-gradient(
+		ellipse at 50% 0,
+		hsl(322 39% 14%),
+		hsl(281 67% 5%) 70%
+	);
+	box-shadow: 0 -0.25rem 1rem hsl(328 100% 56% / 0.2);
+}
+
+/* =========================
+   PALM TREES
+========================= */
+
+.palm {
+	/*
+		The trunk and leaf crown both use --palm-center.
+		The leaf crown sits exactly at --trunk-height.
+	*/
+	--palm-center: 50%;
+	--trunk-height: 82%;
+
+	position: absolute;
+	z-index: 10;
+	bottom: 1%;
+	width: 25rem;
+	height: 105vh;
+	pointer-events: none;
+	color: hsl(279 80% 3%);
+	filter: drop-shadow(0 0 0.3rem hsl(0 0% 0% / 0.65));
+}
+
+.palm-left {
+	left: -4rem;
+	transform: rotate(-3deg);
+	transform-origin: bottom center;
+}
+
+.palm-right {
+	right: -4rem;
+	transform: scaleX(-1) rotate(-3deg);
+	transform-origin: bottom center;
+}
+
+/* Trunk center */
+
+.trunk {
+	position: absolute;
+	left: var(--palm-center);
+	bottom: 0;
+	width: clamp(2.1rem, 3vw, 3.8rem);
+	height: var(--trunk-height);
+	transform: translateX(-50%);
+	transform-origin: bottom center;
+	border-radius: 60% 45% 15% 15%;
+	background: repeating-linear-gradient(
+		to bottom,
+		hsl(8 38% 10%) 0 1.15rem,
+		hsl(278 75% 3%) 1.25rem 2rem
+	);
+	box-shadow: inset 0.6rem 0 hsl(12 47% 17% / 0.5),
+		inset -0.45rem 0 hsl(275 100% 2% / 0.85);
+}
+
+/* Leaf crown positioned exactly at the top of the trunk */
+
+.leaves {
+	position: absolute;
+	left: var(--palm-center);
+	bottom: var(--trunk-height);
+	width: 0;
+	height: 0;
+	transform-origin: 0 0;
+	animation: palmSway 5s ease-in-out infinite alternate;
+}
+
+/* Every leaf starts from the same center point */
+
+.leaves i {
+	--leaf-height: clamp(3.5rem, 6vw, 6rem);
+
+	position: absolute;
+	left: 0;
+	top: calc(var(--leaf-height) / -2);
+	width: clamp(15rem, 23vw, 25rem);
+	height: var(--leaf-height);
+	transform-origin: 0 50%;
+	border-radius: 100% 0;
+	background: repeating-linear-gradient(
+		170deg,
+		currentColor 0 0.28rem,
+		transparent 0.35rem 0.7rem
+	);
+}
+
+.leaves i::after {
+	content: "";
+	position: absolute;
+	top: 48%;
+	left: 0;
+	width: 100%;
+	height: 0.35rem;
+	transform: rotate(-5deg);
+	transform-origin: left center;
+	background: currentColor;
+}
+
+.leaves i:nth-child(1) {
+	transform: rotate(-112deg) scaleX(0.8);
+}
+
+.leaves i:nth-child(2) {
+	transform: rotate(-82deg) scaleX(1.05);
+}
+
+.leaves i:nth-child(3) {
+	transform: rotate(-50deg) scaleX(1.15);
+}
+
+.leaves i:nth-child(4) {
+	transform: rotate(-20deg) scaleX(1.1);
+}
+
+.leaves i:nth-child(5) {
+	transform: rotate(12deg) scaleX(1.2);
+}
+
+.leaves i:nth-child(6) {
+	transform: rotate(43deg) scaleX(1.05);
+}
+
+.leaves i:nth-child(7) {
+	transform: rotate(79deg) scaleX(0.9);
+}
+
+.leaves i:nth-child(8) {
+	transform: rotate(158deg) scaleX(0.85);
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.title {
+	position: absolute;
+	z-index: 12;
+	left: 50%;
+	top: 10%;
+	transform: translateX(-50%);
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 0.45rem;
+	color: hsl(45 100% 90%);
+	text-shadow: 0 0 0.5rem hsl(18 100% 62%), 0 0 1.5rem hsl(328 100% 56%);
+}
+
+.title span {
+	display: block;
+	margin-bottom: 0.3rem;
+	font-size: clamp(0.65rem, 1vw, 0.9rem);
+}
+
+.title strong {
+	display: block;
+	font-size: clamp(1.4rem, 3.5vw, 3.4rem);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes cloudMove {
+	to {
+		left: calc(100% + 20rem);
+	}
+}
+
+@keyframes skyPulse {
+	to {
+		opacity: 0.45;
+		transform: translateY(1%);
+	}
+}
+
+@keyframes sunGlow {
+	to {
+		transform: translate(-50%, 0.7rem) scale(1.04);
+		box-shadow: 0 0 3rem hsl(42 100% 77% / 0.95), 0 0 8rem hsl(23 100% 61% / 0.75),
+			0 0 15rem hsl(326 100% 64% / 0.6);
+	}
+}
+
+@keyframes waterMovement {
+	to {
+		transform: translateX(11rem);
+	}
+}
+
+@keyframes reflectionGlow {
+	from {
+		transform: translateX(-50%) scaleX(0.82);
+		opacity: 0.62;
+	}
+
+	to {
+		transform: translateX(-50%) scaleX(1.15);
+		opacity: 0.92;
+	}
+}
+
+@keyframes ripple {
+	from {
+		transform: translateX(-1.5%) scaleY(0.75);
+	}
+
+	to {
+		transform: translateX(1.5%) scaleY(1.25);
+	}
+}
+
+@keyframes palmSway {
+	from {
+		transform: rotate(-1deg);
+	}
+
+	to {
+		transform: rotate(2deg);
+	}
+}
