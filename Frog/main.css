@@ -1,0 +1,428 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #d9f4ff;
+  font-family: Arial, sans-serif;
+}
+
+.scene {
+  position: relative;
+  width: min(900px, 100vw);
+  height: min(600px, 100vh);
+  overflow: hidden;
+  background: linear-gradient(
+    to bottom,
+    #82d8ff 0%,
+    #c8f3ff 48%,
+    #239ac0 49%,
+    #075e87 100%
+  );
+}
+
+/* Title */
+
+.title {
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  color: #12536d;
+  font-size: clamp(24px, 5vw, 42px);
+  text-shadow: 2px 2px white;
+}
+
+/* Sun */
+
+.sun {
+  position: absolute;
+  top: 55px;
+  right: 90px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #ffd54a;
+  box-shadow: 0 0 35px rgba(255, 213, 74, 0.75);
+}
+
+/* Clouds */
+
+.cloud {
+  position: absolute;
+  width: 120px;
+  height: 38px;
+  border-radius: 40px;
+  background: white;
+  opacity: 0.9;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+}
+
+.cloud::before {
+  width: 50px;
+  height: 50px;
+  left: 18px;
+  bottom: 10px;
+}
+
+.cloud::after {
+  width: 65px;
+  height: 65px;
+  right: 15px;
+  bottom: 5px;
+}
+
+.cloud-one {
+  top: 80px;
+  left: 90px;
+}
+
+.cloud-two {
+  top: 145px;
+  left: 350px;
+  transform: scale(0.7);
+}
+
+/* Grass */
+
+.grass {
+  position: absolute;
+  top: 276px;
+  width: 100%;
+  height: 45px;
+  background: #4c9f38;
+
+  clip-path: polygon(
+    0 100%,
+    0 55%,
+    4% 10%,
+    8% 65%,
+    12% 20%,
+    16% 70%,
+    20% 5%,
+    24% 65%,
+    28% 15%,
+    32% 70%,
+    36% 5%,
+    40% 65%,
+    44% 15%,
+    48% 70%,
+    52% 5%,
+    56% 65%,
+    60% 15%,
+    64% 70%,
+    68% 5%,
+    72% 65%,
+    76% 15%,
+    80% 70%,
+    84% 5%,
+    88% 65%,
+    92% 15%,
+    96% 70%,
+    100% 55%,
+    100% 100%
+  );
+}
+
+/* Water waves */
+
+.wave {
+  position: absolute;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  animation: move-wave 4s ease-in-out infinite alternate;
+}
+
+.wave-one {
+  top: 360px;
+  left: 70px;
+  width: 190px;
+}
+
+.wave-two {
+  top: 420px;
+  right: 60px;
+  width: 230px;
+  animation-delay: 1s;
+}
+
+.wave-three {
+  top: 515px;
+  left: 250px;
+  width: 300px;
+  animation-delay: 2s;
+}
+
+@keyframes move-wave {
+  from {
+    transform: translateX(-15px) scaleX(0.9);
+  }
+
+  to {
+    transform: translateX(15px) scaleX(1.1);
+  }
+}
+
+/* Lily pads */
+
+.lily-pad {
+  position: absolute;
+  width: 150px;
+  height: 65px;
+  border-radius: 50%;
+  background: #2e9b4b;
+  box-shadow: inset -12px -10px 0 #21753a;
+}
+
+.lily-pad::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 65px;
+  width: 38px;
+  height: 38px;
+  background: #0d7194;
+  clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+}
+
+.main-pad {
+  left: 50%;
+  bottom: 65px;
+  transform: translateX(-50%) rotate(-4deg);
+}
+
+.small-pad {
+  right: 90px;
+  bottom: 125px;
+  transform: scale(0.7) rotate(8deg);
+}
+
+/* Frog */
+
+.frog {
+  position: absolute;
+  left: 50%;
+  bottom: 118px;
+  width: 180px;
+  height: 150px;
+  transform: translateX(-50%);
+  animation: frog-float 2.5s ease-in-out infinite;
+}
+
+@keyframes frog-float {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+.frog-body {
+  position: absolute;
+  left: 30px;
+  bottom: 0;
+  width: 120px;
+  height: 95px;
+  border-radius: 55% 55% 45% 45%;
+  background: #58b947;
+  box-shadow: inset -12px -8px 0 #3b9634;
+}
+
+.frog-head {
+  position: absolute;
+  top: 15px;
+  left: 22px;
+  width: 136px;
+  height: 92px;
+  border-radius: 50%;
+  background: #68c955;
+  box-shadow: inset -10px -7px 0 #48a63d;
+}
+
+/* Frog eyes */
+
+.eye {
+  position: absolute;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border: 7px solid #61c44f;
+  border-radius: 50%;
+  background: white;
+}
+
+.eye::after {
+  content: "";
+  position: absolute;
+  top: 11px;
+  left: 12px;
+  width: 14px;
+  height: 18px;
+  border-radius: 50%;
+  background: #111;
+}
+
+.eye-left {
+  left: 29px;
+}
+
+.eye-right {
+  right: 29px;
+}
+
+/* Frog nose and mouth */
+
+.nostril {
+  position: absolute;
+  top: 57px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #24772d;
+}
+
+.nostril-left {
+  left: 55px;
+}
+
+.nostril-right {
+  right: 55px;
+}
+
+.mouth {
+  position: absolute;
+  left: 38px;
+  bottom: 12px;
+  width: 60px;
+  height: 24px;
+  border-bottom: 4px solid #1d6629;
+  border-radius: 50%;
+}
+
+/* Frog legs */
+
+.leg {
+  position: absolute;
+  bottom: 6px;
+  width: 75px;
+  height: 38px;
+  border-radius: 50%;
+  background: #4ca83e;
+}
+
+.leg-left {
+  left: 0;
+  transform: rotate(-20deg);
+}
+
+.leg-right {
+  right: 0;
+  transform: rotate(20deg);
+}
+
+.foot {
+  position: absolute;
+  bottom: -4px;
+  width: 55px;
+  height: 18px;
+  border-radius: 50%;
+  background: #69c855;
+}
+
+.foot-left {
+  left: -13px;
+  transform: rotate(-8deg);
+}
+
+.foot-right {
+  right: -13px;
+  transform: rotate(8deg);
+}
+
+/* Water ripple */
+
+.water-ring {
+  position: absolute;
+  left: 50%;
+  bottom: 48px;
+  width: 240px;
+  height: 38px;
+  border: 4px solid rgba(210, 248, 255, 0.55);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  animation: ripple 2.5s ease-out infinite;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0.8;
+    transform: translateX(-50%) scale(0.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.3);
+  }
+}
+
+/* Reeds */
+
+.reeds {
+  position: absolute;
+  left: 35px;
+  bottom: 220px;
+}
+
+.reed {
+  position: absolute;
+  bottom: 0;
+  width: 7px;
+  height: 125px;
+  border-radius: 10px;
+  background: #28713b;
+  transform-origin: bottom;
+}
+
+.reed::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -7px;
+  width: 20px;
+  height: 42px;
+  border-radius: 50%;
+  background: #704425;
+}
+
+.reed-one {
+  left: 0;
+  transform: rotate(-8deg);
+}
+
+.reed-two {
+  left: 22px;
+  height: 150px;
+  transform: rotate(4deg);
+}
+
+.reed-three {
+  left: 45px;
+  height: 110px;
+  transform: rotate(11deg);
+}
